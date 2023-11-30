@@ -277,7 +277,7 @@ public class ForgetPasswordFragment extends Fragment {
                             // if the code is correct and the task is successful
                             // we are sending our user to new activity.
                             saveData();
-                            Intent i = new Intent(getActivity(), HomeActivity.class);
+                            Intent i = new Intent(getActivity(), Dashboard.class);
                             startActivity(i);
 
                         } else {

@@ -105,7 +105,7 @@ public class SignUpFragment extends Fragment {
                 /**
                  * phone number validation
                  */
-                String regexPhone = "(0/91)?[7-9][0-9]{9}";
+                String regexPhone = "[0-9]{10}$";
                 Pattern patternPhone = Pattern.compile(regexPhone);
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
@@ -121,7 +121,7 @@ public class SignUpFragment extends Fragment {
                 Matcher passwordMatcher = patternPassword.matcher(password.getText().toString());
 
                 if (fName.getText().toString().length() == 0 || lName.getText().toString().length() == 0 || email.getText().toString().length() == 0 || phone.getText().toString().length() == 0 || password.getText().toString().length() == 0 || confirmPassword.getText().toString().length() == 0) {
-                    //Toast.makeText(getActivity(), "Please fill all the fileds!!", Toast.LENGTH_SHORT).show();
+
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Empty Fields !!")
@@ -176,6 +176,7 @@ public class SignUpFragment extends Fragment {
                                             .show();
                                 }
                             } else {
+                                Toast.makeText(getActivity(), "Account created successfully!!", Toast.LENGTH_SHORT).show();
                                 addDatatoFirebase(fName.getText().toString(), lName.getText().toString(), email.getText().toString(), phone.getText().toString(), password.getText().toString());
                                 Toast.makeText(getActivity(), "Account created successfully!!", Toast.LENGTH_SHORT).show();
                                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -196,7 +197,6 @@ public class SignUpFragment extends Fragment {
 //                Toast.makeText(getActivity(), ".....", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         return v;
     }
