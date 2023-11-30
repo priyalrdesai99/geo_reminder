@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">geo_reminder</string>
+    <string name="api_key">AIzaSyCKw9nR_kYnCiCl88ZDarzV2hCp_sjw-kE</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
