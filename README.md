@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In the dynamic realm of mobile applications, the Gemomindr project stands at the forefront—a transformative initiative redefining task management. Our primary focus is on crafting foundational elements that drive application efficiency, specifically creating a robust database schema and integrating Firebase services. This involves establishing the groundwork for efficient CRUD operations and incorporating Firebase Cloud Messaging to ensure timely push notification delivery.
+In the dynamic realm of mobile applications, the Geo-Reminder project stands at the forefront—a transformative initiative redefining task management. Our primary focus is on crafting foundational elements that drive application efficiency, specifically creating a robust database schema and integrating Firebase services. This involves establishing the groundwork for efficient CRUD operations and incorporating Firebase Cloud Messaging to ensure timely push notification delivery.
 
 ## Overview of Work Done
 
