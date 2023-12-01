@@ -1,12 +1,6 @@
 package com.example.geo_reminder;
 
-import android.widget.Toast;
-
 import com.google.android.gms.maps.model.LatLng;
-
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GeoFencing {
     public double radius;
@@ -43,7 +37,4 @@ public class GeoFencing {
     }
 
 
-    public static boolean isLocationChanged() {
-        return false;
-    }
 }
