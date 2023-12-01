@@ -26,19 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LogInFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LogInFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -66,18 +58,8 @@ public class LogInFragment extends Fragment {
     SharedPreferences sharedpreferences;
 
     public LogInFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LogInFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static LogInFragment newInstance(String param1, String param2) {
         LogInFragment fragment = new LogInFragment();
         Bundle args = new Bundle();
@@ -99,7 +81,7 @@ public class LogInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_log_in, container, false);
         EdtEmail = view.findViewById(R.id.edt_email);
         EdtPassword = view.findViewById(R.id.edt_pass);
@@ -109,7 +91,6 @@ public class LogInFragment extends Fragment {
         databaseReference = firebaseDatabase.getReference("UserInfo");
         forgetPassword = view.findViewById(R.id.forget_pass);
         userInfo = new UserInfo();
-
 
         NewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +134,7 @@ public class LogInFragment extends Fragment {
 
                                         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        String userId = messageSnapshot.getKey();
                                         editor.putString(KEY, (String) messageSnapshot.getKey());
                                         editor.putString(FIRSTNAME, (String) messageSnapshot.child("firstName").getValue());
                                         editor.putString(LASTNAME, (String) messageSnapshot.child("lastName").getValue());
@@ -164,7 +146,7 @@ public class LogInFragment extends Fragment {
                                         editor.commit();
                                         Toast.makeText(getActivity(), "Login successful XD", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getActivity(), Dashboard.class);
-                                        // intent.putExtra();
+                                        intent.putExtra("KEY",userId);
                                         startActivity(intent);
                                         getActivity().finish();
                                     }

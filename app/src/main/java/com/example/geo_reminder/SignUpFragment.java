@@ -200,7 +200,8 @@ public class SignUpFragment extends Fragment {
 
         return v;
     }
-    private void addDatatoFirebase(String fName, String lName, String email, String phone, String password) {
+    private void addDatatoFirebase(String fName, String lName, String email,
+                                   String phone, String password) {
         userInfo.setFirstName(fName);
         userInfo.setLastName(lName);
         userInfo.setEmail(email);
@@ -209,6 +210,5 @@ public class SignUpFragment extends Fragment {
 
         String uId = databaseReference.push().getKey();
         databaseReference.child(uId).setValue(userInfo);
-
     }
 }

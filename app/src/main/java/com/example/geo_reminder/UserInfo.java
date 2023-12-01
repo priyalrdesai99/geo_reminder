@@ -2,8 +2,6 @@ package com.example.geo_reminder;
 
 public class UserInfo {
 
-    // string variable for
-    // storing employee name.
     private String firstName;
 
     // string variable for storing
@@ -15,15 +13,9 @@ public class UserInfo {
     private String email;
     private String password;
 
-    // an empty constructor is
-    // required when using
-    // Firebase Realtime Database.
     public UserInfo() {
 
     }
-
-    // created getter and setter methods
-    // for all our variables.
     public String getFirstName() {
         return firstName;
     }
