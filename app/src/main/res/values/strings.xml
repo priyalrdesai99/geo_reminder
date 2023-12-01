@@ -45,4 +45,8 @@
     <string name="notification">Notification</string>
     <string name="start">Start</string>
     <string name="logout">Logout</string>
+    <string name="Add_Reminder">Add Reminder</string>
+    <string name="Add_Item">Add Item</string>
+    <string name="Item">Item</string>
+    <string name="Description">Description</string>
 </resources>
