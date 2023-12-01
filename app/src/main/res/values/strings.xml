@@ -2,4 +2,5 @@
     <string name="app_name">geo_reminder</string>
     <string name="api_key">AIzaSyCKw9nR_kYnCiCl88ZDarzV2hCp_sjw-kE</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="location_format">Current Location: %1$.6f, %2$.6f</string>
 </resources>

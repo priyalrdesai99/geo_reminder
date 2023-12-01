@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -137,6 +139,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (directionsResult != null) {
                 List<LatLng> path = PolyUtil.decode(directionsResult.routes[0].overviewPolyline.getEncodedPath());
                 mMap.addPolyline(new PolylineOptions().addAll(path).color(R.color.colorPrimary));
+                String distance = directionsResult.routes[0].legs[0].distance.humanReadable;
+                String duration = directionsResult.routes[0].legs[0].duration.humanReadable;
+                // Display the distance and duration
+                TextView directionsTextView = findViewById(R.id.directionsTextView);
+                String info = "Distance: " + distance + "\nDuration: " + duration;
+                directionsTextView.setText(info);
+                //Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG).show();
             }
         }
     }
