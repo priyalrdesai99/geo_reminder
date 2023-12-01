@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -41,11 +43,36 @@ public class DashboardActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        String item = get_item.getText().toString();
-                        String desc = get_desc.getText().toString();
+                        String userId = getIntent().getStringExtra("KEY");
 
-                        Toast.makeText(DashboardActivity.this, item+" Successfully Added!!", Toast.LENGTH_SHORT).show();
+                        String itemName = get_item.getText().toString();
+                        String description = get_desc.getText().toString();
+
+                        // Create a ToDoItem object
+                        ToDoItem toDoItem = new ToDoItem(itemName, description);
+
+                        // Get a reference to the Firebase Realtime Database
+                        DatabaseReference toDoItemReference = FirebaseDatabase.getInstance().getReference("ToDoList");
+
+                        //String itemId = toDoItemReference.push().getKey();
+                        toDoItemReference.child(userId).setValue(toDoItem);
+
+                        Toast.makeText(DashboardActivity.this, itemName+" Successfully Added!!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        //        DatabaseReference itemStoreReference = FirebaseDatabase.getInstance().getReference("ItemStore");
+//
+//        ItemStore defaultItem1 = new ItemStore("bread", "Trader Joe's", 33.422580, -111.924900);
+//        ItemStore defaultItem2 = new ItemStore("apple", "Safeway", 33.408986, -111.925494);
+//        ItemStore defaultItem3 = new ItemStore("apple", "CVS", 33.414332, -111.925852);
+//
+//        String key1 = itemStoreReference.push().getKey();
+//        itemStoreReference.child(key1).setValue(defaultItem1);
+//
+//        String key2 = itemStoreReference.push().getKey();
+//        itemStoreReference.child(key2).setValue(defaultItem2);
+//
+//        String key3 = itemStoreReference.push().getKey();
+//        itemStoreReference.child(key3).setValue(defaultItem3);
                     }
                 });
                 dialog.show();

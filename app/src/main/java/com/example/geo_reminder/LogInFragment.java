@@ -145,7 +145,7 @@ public class LogInFragment extends Fragment {
                                         editor.putString(NOTIFICATION, "false");
                                         editor.commit();
                                         Toast.makeText(getActivity(), "Login successful XD", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getActivity(), Dashboard.class);
+                                        Intent intent = new Intent(getActivity(), DashboardActivity.class);
                                         intent.putExtra("KEY",userId);
                                         startActivity(intent);
                                         getActivity().finish();
