@@ -1,4 +1,4 @@
-# Local Store Ranking System
+# Local Store Ranking Recommendation System for Geo-Reminder
 
 The Local Store Ranking System is an innovative application that leverages machine learning to offer users personalized rankings of nearby stores, tailored to their preferences and previous interactions. This system utilizes advanced algorithms similar to those in collaborative and content-based filtering, analyzing user behavior to prioritize and suggest stores that align closely with their interests and needs. The primary goal of this project is to enhance the local shopping experience for users and to drive foot traffic to stores, benefiting local businesses.
 
