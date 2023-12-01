@@ -5,6 +5,7 @@ The Geo Reminder app is an Android application designed to notify users when the
 - Android Studio installed
 - Google Maps API key
 - Firebase project with Realtime Database enabled
+- Pull all backend (.Java) Files from branch: Avi_Mehta, to effectively use Google Firebase’s services.
 
 **Steps:**
 - Obtain a Google Maps API key from the Google Cloud Console.
