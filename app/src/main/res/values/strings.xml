@@ -49,4 +49,11 @@
     <string name="Add_Item">Add Item</string>
     <string name="Item">Item</string>
     <string name="Description">Description</string>
+    <string-array name="categories">
+        <item>Grocery</item>
+        <item>Pharmacy</item>
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Stationary</item>
+    </string-array>
 </resources>

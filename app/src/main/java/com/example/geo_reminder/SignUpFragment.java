@@ -27,7 +27,6 @@ public class SignUpFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
     private String mParam1;
     private String mParam2;
 
@@ -89,29 +88,17 @@ public class SignUpFragment extends Fragment {
                 transaction.commit();
             }
         });
-        /**
-         * saves the data to data base
-         */
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 * email validation
-                 */
                 String regexEmail = "^[A-Za-z0-9+.]+@(.+)$";
                 Pattern patternEmail = Pattern.compile(regexEmail);
                 Matcher emailMatcher = patternEmail.matcher(email.getText().toString());
 
-                /**
-                 * phone number validation
-                 */
                 String regexPhone = "[0-9]{10}$";
                 Pattern patternPhone = Pattern.compile(regexPhone);
                 Matcher phoneMatcher = patternPhone.matcher(phone.getText().toString());
 
-                /**
-                 * password validation
-                 */
                 String regexPassword = "^(?=.*[0-9])"
                         + "(?=.*[a-z])(?=.*[A-Z])"
                         + "(?=.*[@#$%^&+=])"
@@ -128,47 +115,39 @@ public class SignUpFragment extends Fragment {
                             .setMessage("Please fill all the fields.")
                             .show();
                 } else if (!emailMatcher.matches()) {
-                    //Toast.makeText(getActivity(), "Email format is incorrect!!", Toast.LENGTH_SHORT).show();
-                    //email.setError("Email format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Email format is Incorrect !!")
                             .setMessage("Enter a valid email address.")
                             .show();
                 } else if (!phoneMatcher.matches()) {
-                    //Toast.makeText(getActivity(), "Phone number format is incorrect!!", Toast.LENGTH_SHORT).show();
-                    //phone.setError("Phone number format is incorrect!!");
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Phone format is Incorrect !!")
                             .setMessage("Enter a valid phone number.")
                             .show();
                 } else if (!passwordMatcher.matches()) {
-                    //Toast.makeText(getActivity(), "Password format is incorrect!!", Toast.LENGTH_SHORT).show();
-                    //password.setError("Password format is incorrect!!");
+
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Incorrect Password !!")
                             .setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
                             .show();
                 } else if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-                    //Toast.makeText(getActivity(), "confirm password doesn't match!!", Toast.LENGTH_SHORT).show();
-                    //confirmPassword.setError("confirm password doesn't match!!");
+
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Incorrect Password !!")
                             .setMessage("Confirm Password doesn't match.")
                             .show();
                 } else {
-//                    Toast.makeText(getActivity(), "sending data.....", Toast.LENGTH_SHORT).show();
+//
                     Query query = databaseReference.orderByChild("email").equalTo(email.getText().toString());
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
-                                    //Toast.makeText(getActivity(),"Email is already registered!!" , Toast.LENGTH_SHORT).show();
-                                    //email.setError("Email is already registered!!");
                                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                                             .setIcon(android.R.drawable.ic_dialog_alert)
                                             .setTitle("Duplication !!")
@@ -182,7 +161,6 @@ public class SignUpFragment extends Fragment {
                                 transaction = getActivity().getSupportFragmentManager().beginTransaction();
                                 lif = new LogInFragment();
                                 transaction.replace(R.id.flMain, lif);
-//                                transaction.addToBackStack(null);
                                 transaction.commit();
                             }
                         }
@@ -194,7 +172,7 @@ public class SignUpFragment extends Fragment {
                     });
 
                 }
-//                Toast.makeText(getActivity(), ".....", Toast.LENGTH_SHORT).show();
+//
             }
         });
 
