@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,7 +47,7 @@ public class DashboardActivity extends AppCompatActivity {
                 get_desc = dialog.findViewById(R.id.edt_desc);
                 add = dialog.findViewById(R.id.add_btn);
 
-                String selectedSpinnerItem = spinner.getSelectedItem().toString();
+                //String selectedSpinnerItem = spinner.getSelectedItem().toString();
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -57,18 +56,21 @@ public class DashboardActivity extends AppCompatActivity {
 
                         String itemName = get_item.getText().toString();
                         String description = get_desc.getText().toString();
+                        String category = spinner.getSelectedItem().toString();
 
                         // Create a ToDoItem object
-                        ToDoItem toDoItem = new ToDoItem(itemName, description);
+                        ToDoItem toDoItem = new ToDoItem(itemName, description, category);
+
 
                         // Get a reference to the Firebase Realtime Database
-                        DatabaseReference toDoItemReference = FirebaseDatabase.getInstance().getReference("ToDoList");
+                        DatabaseReference toDoItemReference = FirebaseDatabase.getInstance().getReference("ToDoList").child(userId);
 
-                        //String itemId = toDoItemReference.push().getKey();
-                        toDoItemReference.child(userId).setValue(toDoItem);
+                        String itemId = toDoItemReference.push().getKey();
+                        toDoItemReference.child(itemId).setValue(toDoItem);
 
-                        Toast.makeText(DashboardActivity.this, selectedSpinnerItem+itemName+" Successfully Added!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashboardActivity.this, " Successfully Added!!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+
                     }
                 });
                 dialog.show();

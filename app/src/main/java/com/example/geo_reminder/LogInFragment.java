@@ -116,7 +116,6 @@ public class LogInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(EdtEmail.getText().toString()) || TextUtils.isEmpty(EdtPassword.getText().toString())) {
-                    //Toast.makeText(getActivity(), "Please fill all the fields!!", Toast.LENGTH_SHORT).show();
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle("Empty Field Detected")
@@ -152,19 +151,16 @@ public class LogInFragment extends Fragment {
                                     }
                                     else
                                     {
-                                        //Toast.makeText(getActivity(), "Incorrect Password", Toast.LENGTH_SHORT).show();
                                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                                 .setTitle("Incorrect Password !!")
-                                                //.setMessage("Password should consist of at least 8 letters containing Uppercase, Lowercase, Digits and Special Characters.")
                                                 .show();
-                                        //EdtPassword.setError("Incorrect password!!");
-
 
                                     }
                                 }
-                            } else {
-                                //Toast.makeText(getActivity(), "Account doesn't exist!!", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+
                                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                                         .setIcon(android.R.drawable.ic_dialog_alert)
                                         .setTitle("Account Doesn't Exists !!")
