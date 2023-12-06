@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Geo_reminder"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCKw9nR_kYnCiCl88ZDarzV2hCp_sjw-kE" />
+
         <activity
             android:name=".DashboardActivity"
             android:exported="false" />
