@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "709387740437",
+    "project_id": "georeminder-ec001",
+    "storage_bucket": "georeminder-ec001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709387740437:android:4097b0a77ae80be0d7351c",
+        "android_client_info": {
+          "package_name": "com.example.geo_reminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpr0GRlaIcSOplt6dx7XssettUn6z5OWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
