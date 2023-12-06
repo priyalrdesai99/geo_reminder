@@ -7,8 +7,11 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -33,12 +36,19 @@ public class DashboardActivity extends AppCompatActivity {
                 System.out.println("1111");
                 dialog.setContentView(R.layout.custom_dialog);
                 dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(true);
+
+                Spinner spinner = (Spinner) dialog.findViewById(R.id.category_spinner);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DashboardActivity.this,R.array.categories, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
 
                 get_item = dialog.findViewById(R.id.edt_item);
                 get_desc = dialog.findViewById(R.id.edt_desc);
                 add = dialog.findViewById(R.id.add_btn);
 
+                String selectedSpinnerItem = spinner.getSelectedItem().toString();
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -57,22 +67,8 @@ public class DashboardActivity extends AppCompatActivity {
                         //String itemId = toDoItemReference.push().getKey();
                         toDoItemReference.child(userId).setValue(toDoItem);
 
-                        Toast.makeText(DashboardActivity.this, itemName+" Successfully Added!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashboardActivity.this, selectedSpinnerItem+itemName+" Successfully Added!!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
-                        //        DatabaseReference itemStoreReference = FirebaseDatabase.getInstance().getReference("ItemStore");
-//
-//        ItemStore defaultItem1 = new ItemStore("bread", "Trader Joe's", 33.422580, -111.924900);
-//        ItemStore defaultItem2 = new ItemStore("apple", "Safeway", 33.408986, -111.925494);
-//        ItemStore defaultItem3 = new ItemStore("apple", "CVS", 33.414332, -111.925852);
-//
-//        String key1 = itemStoreReference.push().getKey();
-//        itemStoreReference.child(key1).setValue(defaultItem1);
-//
-//        String key2 = itemStoreReference.push().getKey();
-//        itemStoreReference.child(key2).setValue(defaultItem2);
-//
-//        String key3 = itemStoreReference.push().getKey();
-//        itemStoreReference.child(key3).setValue(defaultItem3);
                     }
                 });
                 dialog.show();
