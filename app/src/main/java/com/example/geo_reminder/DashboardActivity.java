@@ -1,5 +1,6 @@
 package com.example.geo_reminder;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -12,21 +13,33 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class DashboardActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
 
+public class DashboardActivity extends AppCompatActivity
+{
     AppCompatButton add_rem,add;
     EditText get_item,get_desc;
+
+    TextView tv_items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
         add_rem = findViewById(R.id.add_reminder);
+        tv_items = findViewById(R.id.tv_items);
         Dialog dialog = new Dialog(DashboardActivity.this);
 
         add_rem.setOnClickListener(new View.OnClickListener() {
@@ -58,18 +71,46 @@ public class DashboardActivity extends AppCompatActivity {
                         String description = get_desc.getText().toString();
                         String category = spinner.getSelectedItem().toString();
 
-                        // Create a ToDoItem object
+
                         ToDoItem toDoItem = new ToDoItem(itemName, description, category);
-
-
-                        // Get a reference to the Firebase Realtime Database
                         DatabaseReference toDoItemReference = FirebaseDatabase.getInstance().getReference("ToDoList").child(userId);
 
                         String itemId = toDoItemReference.push().getKey();
                         toDoItemReference.child(itemId).setValue(toDoItem);
 
                         Toast.makeText(DashboardActivity.this, " Successfully Added!!", Toast.LENGTH_SHORT).show();
+
+                        Query query = toDoItemReference.orderByKey();
+
+                        query.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                List<String> ans = new ArrayList<>();
+
+                                for (DataSnapshot data : snapshot.getChildren()) {
+
+                                    String category = (String) data.child("category").getValue();
+                                    String itemname = (String) data.child("itemName").getValue();
+                                    String desc = (String) data.child("description").getValue();
+                                    String temp = category+" "+itemname+" "+desc;
+                                    System.out.println(temp);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+
+
+                        });
+
                         dialog.dismiss();
+
+
+
 
                     }
                 });
