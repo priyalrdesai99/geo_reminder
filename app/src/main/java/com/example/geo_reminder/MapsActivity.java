@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 
@@ -72,29 +73,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             boolean success = googleMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.map_style));
-
+            mMap = googleMap;
+            LatLng sourceLatLng = getLocationFromAddress(source);
+            if (sourceLatLng != null) {
+                mMap.addMarker(new MarkerOptions().position(sourceLatLng).title("Source: " + source));
+            }
+            LatLng destLatLng = getLocationFromAddress(destination);
+            if (destLatLng != null) {
+                mMap.addMarker(new MarkerOptions().position(destLatLng).title("Destination: " + destination));
+            }
+            if (sourceLatLng != null && destLatLng != null) {
+                View mapView = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getView();
+                if (mapView != null) {
+                    mapView.post(() -> {
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        builder.include(sourceLatLng);
+                        builder.include(destLatLng);
+                        LatLngBounds bounds = builder.build();
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                        new GetDirectionsTask().execute(sourceLatLng, destLatLng);
+                    });
+                }
+            }
             if (!success) {
                 Log.e("Maps Activity", "Maps Activity Style parsing failed.");
             }
         } catch (Resources.NotFoundException e) {
             Log.e("Maps Activity", "Can't find style. Error: ", e);
-        }
-        mMap = googleMap;
-        LatLng sourceLatLng = getLocationFromAddress(source);
-        if (sourceLatLng != null) {
-            mMap.addMarker(new MarkerOptions().position(sourceLatLng).title("Source: " + source));
-        }
-        LatLng destLatLng = getLocationFromAddress(destination);
-        if (destLatLng != null) {
-            mMap.addMarker(new MarkerOptions().position(destLatLng).title("Destination: " + destination));
-        }
-        if (sourceLatLng != null && destLatLng != null) {
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            builder.include(sourceLatLng);
-            builder.include(destLatLng);
-            LatLngBounds bounds = builder.build();
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-            new GetDirectionsTask().execute(sourceLatLng, destLatLng);
         }
 
     }

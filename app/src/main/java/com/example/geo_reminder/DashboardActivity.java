@@ -61,6 +61,7 @@ public class DashboardActivity extends AppCompatActivity {
         add_rem = findViewById(R.id.add_reminder);
         tv_item = findViewById(R.id.tv_items);
         Dialog dialog = new Dialog(DashboardActivity.this);
+        userId = getIntent().getStringExtra("KEY");
 
         add_rem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,8 +84,6 @@ public class DashboardActivity extends AppCompatActivity {
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        userId = getIntent().getStringExtra("KEY");
 
                         String itemName = get_item.getText().toString();
                         String description = get_desc.getText().toString();
@@ -118,16 +117,29 @@ public class DashboardActivity extends AppCompatActivity {
                                     x+=temp+"\n";
                                     System.out.println(temp);
                                     ans.add(temp);
-                                    i+=1;
+                                    i += 1;
                                 }
                                 System.out.println(ans);
                                 tv_item.setText(x);
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
+
+                        if (ContextCompat.checkSelfPermission(DashboardActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED &&
+                                ContextCompat.checkSelfPermission(DashboardActivity.this,
+                                        android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(DashboardActivity.this,
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    LOCATION_PERMISSION_REQUEST_CODE);
+                        } else {
+                            getCurrentLocation();
+                        }
                         dialog.dismiss();
 
                     }
@@ -136,7 +148,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        geoFencing = new GeoFencing(DashboardActivity.this);
+        geoFencing = new GeoFencing(DashboardActivity.this, userId);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -153,18 +165,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
 
         };
-
-        if (ContextCompat.checkSelfPermission(DashboardActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(DashboardActivity.this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(DashboardActivity.this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-        } else {
-            getCurrentLocation();
-        }
     }
 
 
@@ -186,6 +186,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
             }
         }
+
     }
 
 }

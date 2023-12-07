@@ -25,11 +25,13 @@ public class GeoFencing {
     public double velocity;
     public Context context;
     Map<String, List<Item>> itemsCategoryWise;
+    String userId;
 
-    public GeoFencing(Context context) {
+    public GeoFencing(Context context, String userId) {
         this.radius = 2;
         this.velocity = 30;
         this.context = context;
+        this.userId = userId;
     }
 
     public boolean shouldNotify(LatLng currentLocation, LatLng storeLocation, double velocity) {
@@ -60,21 +62,18 @@ public class GeoFencing {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
 
-                    for (DataSnapshot childSnapshot : itemSnapshot.getChildren()) {
-                        String itemName = childSnapshot.child("itemName").getValue(String.class);
-                        String category = childSnapshot.child("category").getValue(String.class);
-                        Item i = new Item(itemName, category);
-                        List<Item> itemList = itemsCategoryWise.getOrDefault(category, new ArrayList<>());
-                        System.out.println("Item Name: " + itemName);
-                        itemList.add(i);
-                        itemsCategoryWise.put(category, itemList);
-                    }
-                    onLocationChange(currentLocation, velocity);
-                    break;
+                for (DataSnapshot childSnapshot : dataSnapshot.child(userId).getChildren()) {
+                    String itemName = childSnapshot.child("itemName").getValue(String.class);
+                    String category = childSnapshot.child("category").getValue(String.class);
+                    Item i = new Item(itemName, category);
+                    List<Item> itemList = itemsCategoryWise.getOrDefault(category, new ArrayList<>());
+                    System.out.println("Item Name: " + itemName);
+                    itemList.add(i);
+                    itemsCategoryWise.put(category, itemList);
                 }
-            }
+                    onLocationChange(currentLocation, velocity);
+                }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -102,7 +101,7 @@ public class GeoFencing {
                             System.out.println("Longitude : " + longitude);
                             if (shouldNotify(currentLocation, new LatLng(latitude, longitude), velocity)) {
                                 System.out.println("User should be notified");
-                                showAlertDialog(currentLocation, storeName, latitude, longitude);
+                                showAlertDialog(itemsCategoryWise.get(category), currentLocation, storeName, latitude, longitude);
                             }
                         }
                     }
@@ -117,7 +116,7 @@ public class GeoFencing {
         }
     }
 
-    private void showAlertDialog(LatLng currentLocation, String storeName, double latitude, double longitude) {
+    private void showAlertDialog(List<Item> items, LatLng currentLocation, String storeName, double latitude, double longitude) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Confirmation")
                 .setMessage("Do you want to buy items from " + storeName + "?")
@@ -129,6 +128,7 @@ public class GeoFencing {
                         intent.putExtra("SOURCE", currentLocation.latitude + ", " + currentLocation.longitude);
                         intent.putExtra("DESTINATION", latitude + ", " + longitude);
                         context.startActivity(intent);
+                        deleteValuesFromDatabase(items.get(0).category);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -140,4 +140,36 @@ public class GeoFencing {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
+
+    private void deleteValuesFromDatabase(String category) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("ToDoList");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot itemSnapshot : dataSnapshot.child(userId).getChildren()) {
+                    String itemCategory = itemSnapshot.child("category").getValue(String.class);
+
+                    if (category.equals(itemCategory)) {
+                        deleteItem(itemSnapshot.getRef());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Error: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    private void deleteItem(DatabaseReference ref) {
+        ref.removeValue().addOnSuccessListener(aVoid -> {
+            System.out.println("Item deleted successfully!");
+        }).addOnFailureListener(e -> {
+            System.out.println("Error deleting item: " + e.getMessage());
+        });
+    }
+
 }
