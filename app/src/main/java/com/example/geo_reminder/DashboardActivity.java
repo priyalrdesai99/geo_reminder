@@ -77,8 +77,6 @@ public class DashboardActivity extends AppCompatActivity {
                         // Create a ToDoItem object
                         ToDoItem toDoItem = new ToDoItem(itemName, description, category);
 
-
-                        // Get a reference to the Firebase Realtime Database
                         DatabaseReference toDoItemReference = FirebaseDatabase.getInstance().getReference("ToDoList").child(userId);
 
                         String itemId = toDoItemReference.push().getKey();
