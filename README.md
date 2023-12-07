@@ -1,44 +1,51 @@
-# Geo-Reminder - Task Management Mobile App
+# Geo-Reminder Android Application
 
 ## Introduction
 
-In the dynamic realm of mobile applications, the Geo-Reminder project stands at the forefront—a transformative initiative redefining task management. Our primary focus is on crafting foundational elements that drive application efficiency, specifically creating a robust database schema and integrating Firebase services. This involves establishing the groundwork for efficient CRUD operations and incorporating Firebase Cloud Messaging to ensure timely push notification delivery.
+In the present scenario, we find ourselves at the most ideal situation to capitalize on the functionalities of Geo-Reminder: an Android application that seeks to redefine task management through the seamless integration of geolocation services and Firebase services. This application helps users receive timely reminders and prompts for location-specific tasks. The application triggers notifications when approaching landmark areas.
 
 ## Overview of Work Done
 
-The main task completed here was to integrate Firebase for user authentication and data management. In the SignUpFragment, Firebase Realtime Database is employed to securely store user information, with real-time validations ensuring accurate data entry. The SignUpFragment also incorporates duplicate email checks to prevent account duplication. In the LogInFragment, Firebase queries validate user credentials against the stored data, and upon successful login, user details are locally stored using Android's SharedPreferences for a seamless user experience. Dashboard items are showcased, and the user has the option to add items and descriptions which is pushed to the database in Firebase where userId is the key used to map.
+The main task completed here was the development of the User Interface of the User Profile module. This includes Login Fragment, SignUp Fragment, and Forget Password. These are required to ensure privacy and security and give users a personalized experience by storing further reminders in their account and enhancing their user experience. The application begins with a splash screen and then is redirected to the LogIn Page. Here, the user needs to input credentials for authentication purposes. If credentials are verified with data present in Firebase’s realtime database, they are redirected to Dashboard Activity.
 
-## Features
+### Features
 
-- User registration into Firebase with first name, last name, email, phone, and password fields.
-- Real-time email, phone, and password validation.
-- Duplicate email checks during registration.
-- User authentication using email and password for login.
-- Local storage of user data upon successful login using SharedPreferences.
-- Dashboard items stored in the Firebase table mapped by userId.
+1. **Splash Activity**: It is a constant screen that appears for a set time when the application is launched.
+2. **LogIn Fragment**: It is for user authentication when a user tries to log in back to the application.
+3. **SignUp Fragment**: If the user doesn’t have an account, then they need to sign up for the application.
+4. **Forget Password**: If the account exists and the user has forgotten the password, then we have provided OTP-based login functionality leveraging Firebase services.
+5. **Dashboard Activity**: Once you are successfully logged in, you will be redirected to this page through which a dialog box will open to add reminders of items.
 
-## Prerequisites and Installation
+### Prerequisites
 
-1. Pull Frontend XML files from branch: **Adit_Patel**, to integrate UI elements.
-2. Ensure all necessary plugins are present in the Gradle files.
-3. Utilize Firebase for user data storage:
-   - Integrate Firebase SDK into your project.
-   - Update the Firebase configuration file (google-services.json) with your project details.
-   - Create a Firebase Project and add your Android App to the project.
-   - Register your app by providing the package name (`com.example.geo_reminder`) and other details.
-   - Download the `google-services.json` configuration file.
-   - Place the `google-services.json` file in the app module of your Android Studio project.
+1. Pull all backend (.Java) Files from branch: **Avi_Mehta**, to effectively use Google Firebase’s services.
+2. Ensure all plugins are present in the Gradle files.
+
+### Steps
+
+1. Launch the app on your Android device.
+2. Navigate to the SignUp or LogIn screen.
+3. For SignUp, fill in the required information and click "Create Account."
+4. For LogIn, enter your credentials and click "Login."
+5. Receive real-time validation feedback.
+6. If successful, the user is redirected to the Dashboard.
+7. Click on the "Add Reminder" button which opens a dialog box to add items along with a description.
 
 ## Screenshots
+- **Fig 1. Splash Activity**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/6aa54dc3-2e52-4bbb-8180-576e187ff5f4" width="150" height="300">
 
-- **Fig 1: Database Structure**
-![Screenshot (118)](https://github.com/priyalrdesai99/geo_reminder/assets/44197829/f99d383c-457d-4ea1-b2fa-e445e65c2987)
+- **Fig 2. Login Fragment**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/1ec0cd36-d678-4f68-a23c-7f65a715c353" width="150" height="300">
 
+- **Fig 3. SignUp Fragment**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/e881e537-c5a0-469c-a37c-16561594d805" width="150" height="300">
 
-- **Fig 2: Item Lists Database Structure**
-![Screenshot (122)](https://github.com/priyalrdesai99/geo_reminder/assets/44197829/5eeecccd-c4ad-4f41-822b-ef86bc091942)
+- **Fig 4. Forget Password**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/70f998e7-776d-4623-9b04-2a857b7cbfc3" width="150" height="300">
 
+- **Fig 5. Dashboard**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/ec1dd805-06af-4e6d-b5e8-f8605e4120dc" width="150" height="300">
 
-- **Fig 3: Code Snippet for SignUp Data Push**
-![Screenshot (121)](https://github.com/priyalrdesai99/geo_reminder/assets/44197829/3e656d39-52d5-43c1-b923-f7d8d60c691e)
-
+- **Fig 6. Add Items**
+<img src="https://github.com/priyalrdesai99/geo_reminder/assets/60565128/5674c44a-144a-41a7-9b28-0466b00bb4b1" width="150" height="300">

@@ -40,4 +40,5 @@
         app:layout_constraintTop_toBottomOf="@id/tv_items"
         app:layout_constraintVertical_bias="0.393"
         tools:ignore="DuplicateSpeakableTextCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
