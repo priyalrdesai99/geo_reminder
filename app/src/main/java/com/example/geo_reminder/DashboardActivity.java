@@ -3,8 +3,16 @@ package com.example.geo_reminder;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +24,8 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -37,6 +47,12 @@ public class DashboardActivity extends AppCompatActivity {
 
     String userId;
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
+    LocationManager locationManager;
+
+    LocationListener locationListener;
+    GeoFencing geoFencing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +61,7 @@ public class DashboardActivity extends AppCompatActivity {
         add_rem = findViewById(R.id.add_reminder);
         tv_item = findViewById(R.id.tv_items);
         Dialog dialog = new Dialog(DashboardActivity.this);
+        userId = getIntent().getStringExtra("KEY");
 
         add_rem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +84,6 @@ public class DashboardActivity extends AppCompatActivity {
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        userId = getIntent().getStringExtra("KEY");
 
                         String itemName = get_item.getText().toString();
                         String description = get_desc.getText().toString();
@@ -100,16 +115,29 @@ public class DashboardActivity extends AppCompatActivity {
                                     x+=temp+"\n";
                                     System.out.println(temp);
                                     ans.add(temp);
-                                    i+=1;
+                                    i += 1;
                                 }
                                 System.out.println(ans);
                                 tv_item.setText(x);
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
+
+                        if (ContextCompat.checkSelfPermission(DashboardActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED &&
+                                ContextCompat.checkSelfPermission(DashboardActivity.this,
+                                        android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(DashboardActivity.this,
+                                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                                    LOCATION_PERMISSION_REQUEST_CODE);
+                        } else {
+                            getCurrentLocation();
+                        }
                         dialog.dismiss();
 
                     }
@@ -117,7 +145,48 @@ public class DashboardActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        geoFencing = new GeoFencing(DashboardActivity.this, userId);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                System.out.println("Latitude : " + latitude);
+                System.out.println("Longitude : " + longitude);
+                LatLng currentLocation = new LatLng(latitude, longitude);
+                geoFencing.fetchAllItems(currentLocation, 30);
+                locationManager.removeUpdates(this);
+            }
+
+        };
     }
+
+
+    private void getCurrentLocation() {
+        // Request location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Permission granted, get the current location");
+                getCurrentLocation();
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
 }
 
 
