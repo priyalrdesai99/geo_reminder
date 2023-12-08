@@ -87,3 +87,20 @@ A Flask-based server application that ranks tasks based on user search queries a
       "user_preferences": {"preference_key": "preference_value", ...}
     }
     ```
+ ## Screenshots
+  &nbsp; &nbsp; **Figure 1 Splash Screen**    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   **Figure 2 Login Page**
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  **Figure 3 Add Item**
+<br>
+<img width="195" alt="image" src="https://github.com/priyalrdesai99/geo_reminder/assets/44197829/7ed714e5-d6cb-4505-9358-d4d4c5b4ce43"> &nbsp; &nbsp; &nbsp; &nbsp; 
+<img width="200" alt="image" src="https://github.com/priyalrdesai99/geo_reminder/assets/44197829/8d38cd1c-f834-4a24-8437-bb58160e8ab8"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img width="195" alt="image" src="https://github.com/priyalrdesai99/geo_reminder/assets/44197829/d1e8a634-8261-42f9-8cdf-de9eabf04bbf">
+<br>
+<br>
+<br>
+&nbsp; &nbsp; **Figure 4 Item List**    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;   **Figure 5 Reminder Notification**
+&nbsp; &nbsp; &nbsp; &nbsp;    **Figure 6 Directions Page**
+<br>
+<img width="200" alt="Screenshot 2023-12-07 190335" src="https://github.com/priyalrdesai99/geo_reminder/assets/44197829/78bfcbf1-9eae-49b2-86c5-2645651348b5"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img width="200" src = "https://github.com/priyalrdesai99/geo_reminder/assets/44197829/a7cd75fc-e0ab-42cb-aed0-8607c960fadd"> &nbsp; &nbsp; &nbsp; &nbsp;
+<img width="195" alt="image" src="https://github.com/priyalrdesai99/geo_reminder/assets/44197829/0b6ca684-ebfc-4ab4-babb-8ec6b793594f">
+
