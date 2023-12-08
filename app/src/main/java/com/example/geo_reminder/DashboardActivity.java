@@ -30,9 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -166,14 +172,12 @@ public class DashboardActivity extends AppCompatActivity {
         };
     }
 
-
     private void getCurrentLocation() {
         // Request location updates
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -187,6 +191,36 @@ public class DashboardActivity extends AppCompatActivity {
         }
 
     }
+    private void sendDataToServer(String serverUrl, String jsonData) {
+    }
+    private void sendToFlaskServer(Map<String, Object> dataMap) {
+
+        new Thread(() -> {
+            try {
+                URL url = new URL("http://127.0.0.1:5000/rank");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+
+                String jsonData = new Gson().toJson(dataMap);
+
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonData.getBytes(StandardCharsets.UTF_8);
+                    os.write(input, 0, input.length);
+                }
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    String serverUrl = "http://127.0.0.1:5000/rank";
+                    sendDataToServer(serverUrl, jsonData);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
 
 }
 
