@@ -126,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected DirectionsResult doInBackground(LatLng... params) {
             GeoApiContext context = new GeoApiContext.Builder()
-                    .apiKey("AIzaSyCKw9nR_kYnCiCl88ZDarzV2hCp_sjw-kE")
+                    .apiKey("")
                     .build();
 
             try {
